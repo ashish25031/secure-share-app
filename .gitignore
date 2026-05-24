@@ -9,7 +9,7 @@ node_modules/
 .env.production.local
 
 # Build output
-dist/
+frontend/dist/
 build/
 out/
 
