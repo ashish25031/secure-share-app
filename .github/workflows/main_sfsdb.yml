@@ -23,17 +23,24 @@ jobs:
         with:
           node-version: '22.x'
 
-      - name: npm install, build, and test
+      - name: Build Frontend
         run: |
+          cd frontend
           npm install
-          npm run build --if-present
-          npm run test --if-present
+          npm run build
+          cd ..
+          xcopy frontend\dist backend\dist /E /I /H /Y
+
+      - name: Build Backend
+        run: |
+          cd backend
+          npm install --production
       
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: .
+          path: backend
 
   deploy:
     runs-on: ubuntu-latest
@@ -62,4 +69,3 @@ jobs:
           app-name: 'sfsdb'
           slot-name: 'Production'
           package: .
-          
